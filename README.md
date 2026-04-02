@@ -244,11 +244,12 @@ graph LR
 
 ## 6. MVP Functional Requirements
 
-**MVP scope (from primary source, p2-180):**
+**MVP scope (from primary source, p2-180, commit c53f1d2):**
 1. MVP participant already has an AI companion — to eliminate routine time-logging
 2. shared-goals skill implemented: find goals, join via contract, report execution
-3. Partner service providing Action Plans (instructions) for at least one goal type
-4. One target group: young people at the start of their life journey
+3. One target group + one goal type — defined by the MVP Partner
+4. Partner service implemented — provides Instructions for that goal type
+5. Target audience: young people at the start of their life journey, finding their calling, digital-native
 
 ### Users
 - Registration via any supported channel: Telegram (`telegram_id`), VK (`vk_id`), MAX (`max_id`)
@@ -259,8 +260,9 @@ graph LR
 - Create a goal (title, description, visibility)
 - Find public goals (list + text search)
 - Share goal (link / QR)
-- AI check on public goal creation (4 criteria above)
-- Dispute mechanism: comment with mandatory example of violation → re-check
+- AI auto-check on public goal creation (4 humanistic criteria — openly published)
+- Dispute mechanism: comment with mandatory explanation of violation → re-check
+- Goal creator can pre-define extended acceptance criteria (CI-style moderation)
 
 ### Contracts
 - Join a goal → create contract (cadence + optional time)
