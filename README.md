@@ -161,51 +161,40 @@ erDiagram
 
 ```mermaid
 graph TB
-    subgraph User channels
+    subgraph Channels
         TG[Telegram Bot]
         VK[VK Bot]
         MAX[MAX Bot]
-        QR[QR Code / Link]
-        AI[AI Companion\nshared-goals skill]
+        QR[QR / Link]
+        AI[AI Companion]
     end
 
-    subgraph Shared Goals Platform
+    subgraph Platform
         API[FastAPI Backend]
-        DB[(SQLite → PostgreSQL)]
-        MOD[AI Moderation\nGoal criteria check]
-        PARTNER[Partner Service\nInstructions / ActionPlan]
+        DB[(SQLite)]
+        MOD[AI Moderation]
+        PARTNER[Partner Service]
     end
 
     subgraph External
-        TGAPI[Telegram API\nMTProto]
+        TGAPI[Telegram API]
         VKAPI[VK API]
         MAXAPI[MAX API]
-        LLM[LLM\nOllama / OpenAI]
+        LLM[LLM / Ollama]
     end
 
-    TG -->|commands| API
-    VK -->|commands| API
-    MAX -->|commands| API
-    QR -->|deep link| TG
-    QR -->|deep link| VK
-    AI -->|MCP skill calls| API
+    TG --> API
+    VK --> API
+    MAX --> API
+    QR --> TG
+    AI --> API
     API --> DB
     API --> MOD
     API --> PARTNER
     MOD --> LLM
-    TG <--> TGAPI
-    VK <--> VKAPI
-    MAX <--> MAXAPI
-    AI --> LLM
-```
-
-    TG -->|commands| API
-    QR -->|deep link| TG
-    AI -->|MCP skill calls| API
-    API --> DB
-    API --> MOD
-    MOD --> LLM
-    TG <--> TGAPI
+    TG --- TGAPI
+    VK --- VKAPI
+    MAX --- MAXAPI
     AI --> LLM
 ```
 
@@ -213,36 +202,36 @@ graph TB
 
 ```mermaid
 graph LR
-    subgraph User["User device"]
-        Phone["Telegram / VK / MAX App"]
+    subgraph User
+        Phone[Mobile App]
     end
 
-    subgraph VPS["VPS Linux"]
-        Bot["Bots (aiogram)"]
-        API["FastAPI"]
-        DB[("SQLite")]
+    subgraph VPS
+        Bot[Bots aiogram]
+        API[FastAPI]
+        DB[(SQLite)]
         Bot --> API
         API --> DB
     end
 
-    subgraph Cluster["Apple Silicon"]
-        Ollama["Ollama — LLM inference"]
-        Thunder["thunder-forge"]
+    subgraph Cluster
+        Ollama[Ollama]
+        Thunder[thunder-forge]
         Thunder --> Ollama
     end
 
-    subgraph Channels["Messaging APIs"]
-        TGAPI["Telegram API"]
-        VKAPI["VK API"]
-        MAXAPI["MAX API"]
+    subgraph APIs
+        TGAPI[Telegram API]
+        VKAPI[VK API]
+        MAXAPI[MAX API]
     end
 
-    Phone <--> TGAPI
-    Phone <--> VKAPI
-    Phone <--> MAXAPI
-    TGAPI <--> Bot
-    VKAPI <--> Bot
-    MAXAPI <--> Bot
+    Phone --- TGAPI
+    Phone --- VKAPI
+    Phone --- MAXAPI
+    TGAPI --- Bot
+    VKAPI --- Bot
+    MAXAPI --- Bot
     API --> Ollama
 ```
 ---
