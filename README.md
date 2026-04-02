@@ -90,9 +90,13 @@ When you consider a contract fulfilled — log it.
 
 The AI companion (connected to wearables) can detect emotional tone rise and auto-flag `is_happy_moment`.
 
-### 4.4 Action Plan *(post-MVP)*
+### 4.4 Action Plan (Instructions)
 
-Optional expert-authored instructions for a goal. Point of monetization. Not in MVP scope.
+Expert-authored instructions for a goal. Required for MVP — at least one partner service must provide instructions for the target goal type.
+
+**Monetization point:** experts/franchises offer step-by-step guidance. Participants get clear next steps; experts get visibility and can offer paid services at specific steps.
+
+Instructions that generate more happy moments in execution → highlighted as successful recommendations for experts.
 
 ---
 
