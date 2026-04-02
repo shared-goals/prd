@@ -107,7 +107,10 @@ Instructions that generate more happy moments in execution → highlighted as su
 ```mermaid
 erDiagram
     USER {
-        string telegram_id PK
+        string id PK "internal UUID"
+        string telegram_id "nullable"
+        string vk_id "nullable"
+        string max_id "nullable"
         string name
         string instance_id
     }
@@ -139,10 +142,19 @@ erDiagram
         bool is_public
         datetime created_at
     }
+    INSTRUCTION {
+        string id PK
+        string goal_id FK
+        string partner_id
+        string title
+        string content
+        datetime created_at
+    }
 
     USER ||--o{ CONTRACT : "joins goal via"
     GOAL ||--o{ CONTRACT : "has"
     CONTRACT ||--o{ COMMIT : "fulfilled by"
+    GOAL ||--o{ INSTRUCTION : "has"
 ```
 
 ### 5.2 Component — System Architecture
@@ -151,6 +163,8 @@ erDiagram
 graph TB
     subgraph User channels
         TG[Telegram Bot]
+        VK[VK Bot]
+        MAX[MAX Bot]
         QR[QR Code / Link]
         AI[AI Companion\nshared-goals skill]
     end
@@ -159,12 +173,31 @@ graph TB
         API[FastAPI Backend]
         DB[(SQLite → PostgreSQL)]
         MOD[AI Moderation\nGoal criteria check]
+        PARTNER[Partner Service\nInstructions / ActionPlan]
     end
 
     subgraph External
         TGAPI[Telegram API\nMTProto]
+        VKAPI[VK API]
+        MAXAPI[MAX API]
         LLM[LLM\nOllama / OpenAI]
     end
+
+    TG -->|commands| API
+    VK -->|commands| API
+    MAX -->|commands| API
+    QR -->|deep link| TG
+    QR -->|deep link| VK
+    AI -->|MCP skill calls| API
+    API --> DB
+    API --> MOD
+    API --> PARTNER
+    MOD --> LLM
+    TG <--> TGAPI
+    VK <--> VKAPI
+    MAX <--> MAXAPI
+    AI --> LLM
+```
 
     TG -->|commands| API
     QR -->|deep link| TG
@@ -218,7 +251,8 @@ graph LR
 4. One target group: young people at the start of their life journey
 
 ### Users
-- Registration via Telegram (`telegram_id`)
+- Registration via any supported channel: Telegram (`telegram_id`), VK (`vk_id`), MAX (`max_id`)
+- Internal `user.id` (UUID) — channel identifiers are nullable attributes
 - No roles, no profiles, no avatars
 
 ### Goals
@@ -239,6 +273,12 @@ graph LR
 - `is_happy_moment` flag
 - `skill_tag` (will / mind / feeling / faith)
 - Optional: photo, location, with whom
+
+### Instructions (Action Plans)
+- At least one partner provides instructions for MVP goal type
+- Instructions are step-by-step guidance from an expert/franchise
+- Instructions that generate more `is_happy_moment` → highlighted as successful
+- Partner can offer paid services at specific steps (monetization)
 
 ### Aggregates (anonymous, no personal ranking)
 - Social Capital = total minutes invested by all participants
@@ -268,7 +308,6 @@ graph LR
 
 - No leaderboards or personal rankings
 - No streaks or push reminders (by default)
-- No monetization in MVP
 - No multi-language in MVP
 - No competitive goals allowed as public
 
