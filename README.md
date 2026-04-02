@@ -220,7 +220,7 @@ graph LR
         Thunder --> Ollama
     end
 
-    subgraph APIs
+    subgraph Channels
         TGAPI[Telegram API]
         VKAPI[VK API]
         MAXAPI[MAX API]
