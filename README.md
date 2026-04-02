@@ -213,33 +213,38 @@ graph TB
 
 ```mermaid
 graph LR
-    subgraph User device
-        Phone[Telegram App]
+    subgraph User["User device"]
+        Phone["Telegram / VK / MAX App"]
     end
 
-    subgraph VPS Linux
-        Bot[Telegram Bot\naiogram]
-        API[FastAPI]
-        DB[(SQLite)]
+    subgraph VPS["VPS Linux"]
+        Bot["Bots (aiogram)"]
+        API["FastAPI"]
+        DB[("SQLite")]
         Bot --> API
         API --> DB
     end
 
-    subgraph Apple Silicon cluster
-        Ollama[Ollama\nLLM inference]
-        Thunder[thunder-forge\norchestrator]
+    subgraph Cluster["Apple Silicon"]
+        Ollama["Ollama — LLM inference"]
+        Thunder["thunder-forge"]
         Thunder --> Ollama
     end
 
-    subgraph Telegram
-        TGAPI[Telegram API]
+    subgraph Channels["Messaging APIs"]
+        TGAPI["Telegram API"]
+        VKAPI["VK API"]
+        MAXAPI["MAX API"]
     end
 
     Phone <--> TGAPI
+    Phone <--> VKAPI
+    Phone <--> MAXAPI
     TGAPI <--> Bot
+    VKAPI <--> Bot
+    MAXAPI <--> Bot
     API --> Ollama
 ```
-
 ---
 
 ## 6. MVP Functional Requirements
