@@ -27,22 +27,28 @@ A platform where:
 
 ## 3. Target Audience (MVP)
 
-**One primary persona — Sergey, 40+, Architect (INTJ)**
+**One primary persona — a young person at the start of their life journey**
 
-- Entrepreneur, high workload, constant travel
-- Values his word — will not back down once committed
-- Hates reminders and external pressure
-- Already has a circle of like-minded people (the "Shilo" group — active lifestyle, shared trips)
-- Wants to see others moving, not be told what to do
+- 16–25 years old, digital-native (Telegram, VK, smartphones as primary interface)
+- Searching for their calling — not yet settled in a career or life direction
+- Already has digital habits but lacks tools for meaningful time investment
+- Responds to social proof: sees others moving → wants to move too
+- Does not respond to reminders, pressure, or obligation
+
+**Why this group:**
+From the primary source (p2-180, MVP scope): *"For MVP it is sufficient to take one target group — especially important is the audience of young people who are beginning their life journey and finding their calling, but have already formed their habits using digital technologies."*
 
 **How the platform works for this persona:**
 
-1. A friend announces readiness to run on Saturday
-2. Sergey sees this — his own goal activates ("Am I going?")
-3. He shows up, logs 2 hours, marks the contract as fulfilled
-4. Next week is easier — the pattern is established
+1. Sees a QR code or link — joins a goal "Learn programming with friends" or "Run together"
+2. Sets a contract: 1 hour per week
+3. Sees that 3 others are also active this week → executes own contract
+4. Logs a commit: what was done, marks `skill_tag: mind`, optional happy moment flag
+5. AI companion (via shared-goals skill) can log time investments automatically
 
-This is the full interaction chain the MVP must support end-to-end.
+**Sergy (40+, Architect) as secondary persona:**
+The platform works for him too — but he doesn't need additional motivation. He already knows what he wants and values his word. The young person is the one who needs the platform to find direction.
+
 
 ## 4. Core Entities
 
@@ -203,6 +209,12 @@ graph LR
 ---
 
 ## 6. MVP Functional Requirements
+
+**MVP scope (from primary source, p2-180):**
+1. MVP participant already has an AI companion — to eliminate routine time-logging
+2. shared-goals skill implemented: find goals, join via contract, report execution
+3. Partner service providing Action Plans (instructions) for at least one goal type
+4. One target group: young people at the start of their life journey
 
 ### Users
 - Registration via Telegram (`telegram_id`)
