@@ -46,9 +46,6 @@ From the primary source (p2-180, MVP scope): *"For MVP it is sufficient to take 
 4. Logs a commit: what was done, marks `skill_tag: mind`, optional happy moment flag
 5. AI companion (via shared-goals skill) can log time investments automatically
 
-**Sergy (40+, Architect) as secondary persona:**
-The platform works for him too — but he doesn't need additional motivation. He already knows what he wants and values his word. The young person is the one who needs the platform to find direction.
-
 
 ## 4. Core Entities
 
