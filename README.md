@@ -64,6 +64,20 @@ A public goal defines the direction. It can be found by anyone; shared goals are
 3. **Human as image** — directed at improving a person or the world
 4. **Larger than life** — can be pursued throughout a lifetime (not a one-time event)
 
+### Goal Discovery & Deduplication Flow
+
+When a user enters a goal title, the system proactively helps to avoid fragmentation:
+
+1. **Join existing** — if an identical or very similar goal already exists, the system suggests joining it instead of creating a new one
+2. **Geographic / language variant** — if an analogous goal exists in a different region or language, the system suggests creating a linked variant (inherited attributes, different geo-scope)
+3. **Child / hierarchical goal** — the system can propose a more specific sub-goal inheriting checks, skill distribution, and other attributes from the parent
+
+Checks, skill distribution, and other attributes can be inherited from the parent/analogous goal, significantly lowering the creation barrier for new participants.
+
+[source](https://text.sharedgoals.ru/p2-180-sharedgoals/#entity_goal)
+
+---
+
 ### 4.2 Contract
 
 A time commitment you make with yourself. The essence: "I am ready to invest N minutes per week/month."
