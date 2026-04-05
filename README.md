@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.21 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.22 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -108,9 +108,11 @@ The AI companion (connected to wearables) can detect emotional tone rise and aut
 
 Expert-authored instructions for a goal. Required for MVP — at least one partner service must provide instructions for the target goal type.
 
-**Monetization point:** experts/franchises offer step-by-step guidance. Participants get clear next steps; experts get visibility and can offer paid services at specific steps.
+**Monetization point:** Experts and partner franchises do not reveal their full know-how — they provide a general overview of the path toward the goal and focus on concrete current-moment recommendations. Instructions are generated on the partner's side, on demand, taking into account the participant's profile. This reduces cognitive load on the participant and protects the partner's IP.
 
-Instructions that generate more happy moments in execution → highlighted as successful recommendations for experts.
+Participants get clear next steps; experts get visibility and can offer paid services at specific steps.
+
+Instructions that generate more happy moments in execution → highlighted as successful recommendations for experts. ([source](https://text.sharedgoals.ru/p2-180-sharedgoals/#entity_instruction))
 
 ---
 
@@ -252,12 +254,14 @@ graph LR
 
 ## 6. MVP Functional Requirements
 
-**MVP scope (from primary source, p2-180, commit c53f1d2):**
+**MVP scope (from primary source, p2-180, commits 94e12c0, c53f1d2, a613a87):**
 1. MVP participant already has an AI companion — to eliminate routine time-logging
 2. shared-goals skill implemented: find goals, join via contract, report execution
 3. One target group + one goal type — defined by the MVP Partner
 4. Partner service implemented — provides Instructions for that goal type
 5. Target audience: young people at the start of their life journey, finding their calling, digital-native
+
+> **Critical pre-MVP step:** Selecting the specific MVP Partner is a prerequisite before development starts. The Partner defines the target audience and goal type. Without a confirmed Partner, MVP cannot launch. ([source](https://text.sharedgoals.ru/p2-180-sharedgoals/#mvp))
 
 ### Users
 - Registration via any supported channel: Telegram (`telegram_id`), VK (`vk_id`), MAX (`max_id`)
