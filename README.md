@@ -336,6 +336,16 @@ graph LR
 - **Multi-instance:** `instance_id: str = "default"` in Goal model — foundation for future federated instances (government ESIA, bank loyalty, international). No multi-tenancy logic in MVP.
 - **AI skill:** post-MVP via MCP protocol. Operations: `find_goals`, `join_goal`, `commit`, `get_summary`
 
+## Repositories
+
+| Repo | Description |
+|---|---|
+| [shared-goals/instance](https://github.com/shared-goals/instance) | Platform instance — FastAPI backend, SQLite, Jinja2 web UI, REST API |
+| [shared-goals/telegram](https://github.com/shared-goals/telegram) | Telegram bot — user interface for goals, contracts, commits, instructions |
+| [shared-goals/robbo-provider](https://github.com/shared-goals/robbo-provider) | Robbo partner provider — personalized instructions service (Computer Club pilot) |
+| [shared-goals/skill](https://github.com/shared-goals/skill) | OpenClaw skill — AI companion integration |
+| [shared-goals/prd](https://github.com/shared-goals/prd) | This document |
+
 ---
 
 ## 10. Related documents
