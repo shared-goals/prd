@@ -14,6 +14,8 @@ The core insight from research (Matthews, Dominican University, 2007): people wh
 
 ## 2. The Solution
 
+**Positioning:** Shared Goals is an open platform for social architects and citizens — a model of motivations and development recommendations that multiply joy in people's lives worldwide.
+
 A platform where:
 - You can see that others are moving toward the same goals (without comparing results)
 - You fix a time contract with yourself
