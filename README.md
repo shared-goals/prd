@@ -349,7 +349,6 @@ graph LR
 | Repo | Description |
 |---|---|
 | [shared-goals/instance](https://github.com/shared-goals/instance) | Platform instance — FastAPI backend, SQLite, Jinja2 web UI, REST API |
-| [shared-goals/telegram](https://github.com/shared-goals/telegram) | Telegram bot — user interface for goals, contracts, commits, instructions *(не входит в MVP)* |
 | [shared-goals/robbo-provider](https://github.com/shared-goals/robbo-provider) | Robbo partner provider — personalized instructions service (Computer Club pilot) |
 | [shared-goals/skill](https://github.com/shared-goals/skill) | OpenClaw skill — AI companion integration |
 | [shared-goals/prd](https://github.com/shared-goals/prd) | This document |
