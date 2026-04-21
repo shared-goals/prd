@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.23 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.24 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -19,7 +19,7 @@ The core insight from research (Matthews, Dominican University, 2007): people wh
 A platform where:
 - You can see that others are moving toward the same goals (without comparing results)
 - You fix a time contract with yourself
-- Interaction is dissolved into familiar channels — Telegram-first
+- Interaction is dissolved into any familiar channel — the AI companion handles it
 - No obligation, no manipulative gamification
 - AI companions can log time investments on your behalf via the [shared-goals skill](https://github.com/shared-goals/skill)
 - Shared Goals is itself an **open harness for collective human intelligence** — for growing Social Capital and joy — analogous to how openclaw is a harness for AI companions and paperclip for AI agent companies
@@ -32,7 +32,7 @@ A platform where:
 
 **One primary persona — a young person at the start of their life journey**
 
-- 16–25 years old, digital-native (Telegram, VK, smartphones as primary interface)
+- 16–25 years old, digital-native (smartphones as primary interface)
 - Searching for their calling — not yet settled in a career or life direction
 - Already has digital habits but lacks tools for meaningful time investment
 - Responds to social proof: sees others moving → wants to move too
@@ -131,9 +131,6 @@ Instructions that generate more happy moments in execution → highlighted as su
 erDiagram
     USER {
         string id PK "internal UUID"
-        string telegram_id "nullable"
-        string vk_id "nullable"
-        string max_id "nullable"
         string name
         string instance_id
     }
@@ -184,12 +181,9 @@ erDiagram
 
 ```mermaid
 graph TB
-    subgraph Channels
-        TG[Telegram Bot]
-        VK[VK Bot]
-        MAX[MAX Bot]
+    subgraph Agents
+        AI[AI Companion + shared-goals skill]
         QR[QR / Link]
-        AI[AI Companion]
     end
 
     subgraph Platform
@@ -199,25 +193,18 @@ graph TB
         PARTNER[Partner Service]
     end
 
-    subgraph External
-        TGAPI[Telegram API]
-        VKAPI[VK API]
-        MAXAPI[MAX API]
+    subgraph Cluster
         LLM[LLM / Ollama]
+        Thunder[thunder-forge]
+        Thunder --> Ollama
     end
 
-    TG --> API
-    VK --> API
-    MAX --> API
-    QR --> TG
     AI --> API
+    QR --> API
     API --> DB
     API --> MOD
     API --> PARTNER
     MOD --> LLM
-    TG --- TGAPI
-    VK --- VKAPI
-    MAX --- MAXAPI
     AI --> LLM
 ```
 
@@ -226,14 +213,13 @@ graph TB
 ```mermaid
 graph LR
     subgraph User
-        Phone[Mobile App]
+        Agent[AI Companion]
+        Browser[Web Browser]
     end
 
     subgraph VPS
-        Bot[Bots aiogram]
         API[FastAPI]
         DB[(SQLite)]
-        Bot --> API
         API --> DB
     end
 
@@ -243,18 +229,8 @@ graph LR
         Thunder --> Ollama
     end
 
-    subgraph Channels
-        TGAPI[Telegram API]
-        VKAPI[VK API]
-        MAXAPI[MAX API]
-    end
-
-    Phone --- TGAPI
-    Phone --- VKAPI
-    Phone --- MAXAPI
-    TGAPI --- Bot
-    VKAPI --- Bot
-    MAXAPI --- Bot
+    Agent --> API
+    Browser --> API
     API --> Ollama
 ```
 ---
@@ -267,16 +243,15 @@ graph LR
 3. One target group + one goal type — defined by the MVP Partner
 4. Partner service implemented — provides Instructions for that goal type
 5. Target audience: young people at the start of their life journey, finding their calling, digital-native
-6. Messenger integrations (Telegram Bot, VK Bot, MAX Bot) — **may not be in MVP scope**; interaction via shared-goals skill is sufficient for v1
+6. Messenger integrations (Telegram Bot, VK Bot, MAX Bot) — **post-MVP**; interaction via shared-goals skill is sufficient for all versions
 7. Web site MVP — view goals and statistics only (no transactional interaction)
 8. Goal Discovery — **post-MVP v1**: will be implemented after initial data accumulation in the pilot
 
 > **Critical pre-MVP step:** Selecting the specific MVP Partner is a prerequisite before development starts. The Partner defines the target audience and goal type. Without a confirmed Partner, MVP cannot launch. ([source](https://text.sharedgoals.ru/p2-180-sharedgoals/#mvp))
 
 ### Users
-- Internal `user.id` (UUID) — channel identifiers are nullable attributes
-- `telegram_id`, `vk_id`, `max_id` — nullable; channel integrations are post-MVP
-- Primary interaction via shared-goals skill (AI companion) in MVP v1
+- Internal `user.id` (UUID) — no channel identifiers in MVP
+- Primary interaction via shared-goals skill (AI companion)
 - No roles, no profiles, no avatars
 
 ### Goals
@@ -339,10 +314,9 @@ graph LR
 
 - **Backend:** Python, FastAPI, SQLAlchemy + Alembic
 - **DB:** SQLite (MVP) → PostgreSQL
-- **Bot framework:** aiogram (async, FSM built-in, active Russian community)
 - **Hosting:** Linux VPS, separate from OpenClaw infrastructure
 - **Multi-instance:** `instance_id: str = "default"` in Goal model — foundation for future federated instances (government ESIA, bank loyalty, international). No multi-tenancy logic in MVP.
-- **AI skill:** post-MVP via MCP protocol. Operations: `find_goals`, `join_goal`, `commit`, `get_summary`
+- **AI skill:** shared-goals skill (OpenClaw). Operations: `find_goals`, `join_goal`, `commit`, `get_summary`. Channel-agnostic — works via any AI companion.
 
 ## Repositories
 
