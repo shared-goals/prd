@@ -88,5 +88,6 @@ Seed Network определяется Партнёром MVP. Из Текста 
 | 1.16 | 2026-03-26 | Q_new закрыт, instance_id в Goal |
 | 1.17–1.18 | 2026-03-28–29 | Q Goal Contagion UX закрыт, молитва как Контракт (Антоний Сурожский) |
 | 1.20 | 2026-03-31 | Q_faith закрыт, `skill_tag` в Commit, раздел 10.22 |
+| 1.23 | 2026-04-21 | Коммиты 2363124, 4eef113: Goal Discovery → post-MVP; Telegram Bot / telegram repo → не в MVP; Harness Engineering + водоплав в RESEARCH; уточнён размах Samara Pub |
 | 1.22 | 2026-04-05 | MVP Partner selection flagged as critical pre-MVP step; Instructions IP model clarified; BACKLOG cleaned up |
 | 1.21 | 2026-04-02 | Рефакторинг структуры репо: README (EN), BACKLOG, HISTORY, RESEARCH |

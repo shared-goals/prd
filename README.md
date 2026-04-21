@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.22 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.23 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -22,6 +22,7 @@ A platform where:
 - Interaction is dissolved into familiar channels — Telegram-first
 - No obligation, no manipulative gamification
 - AI companions can log time investments on your behalf via the [shared-goals skill](https://github.com/shared-goals/skill)
+- Shared Goals is itself a **harness for collective human intelligence** — similar to how openclaw and paperclip are harnesses for AI agents, Shared Goals harnesses collective human effort toward shared goals
 
 **The central mechanic:** Goal Contagion. When you see that a person similar to you — same workload, same values — is executing their contract, your own goal activates automatically. Not pressure. Not comparison. Organic motivation.
 
@@ -66,7 +67,7 @@ A public goal defines the direction. It can be found by anyone; shared goals are
 3. **Human as image** — directed at improving a person or the world
 4. **Larger than life** — can be pursued throughout a lifetime (not a one-time event)
 
-### Goal Discovery & Deduplication Flow
+### Goal Discovery & Deduplication Flow *(post-MVP v1)*
 
 When a user enters a goal title, the system proactively helps to avoid fragmentation:
 
@@ -256,18 +257,22 @@ graph LR
 
 ## 6. MVP Functional Requirements
 
-**MVP scope (from primary source, p2-180, commits 94e12c0, c53f1d2, a613a87):**
+**MVP scope (from primary source, p2-180, commits 94e12c0, c53f1d2, a613a87, 4eef113):**
 1. MVP participant already has an AI companion — to eliminate routine time-logging
 2. shared-goals skill implemented: find goals, join via contract, report execution
 3. One target group + one goal type — defined by the MVP Partner
 4. Partner service implemented — provides Instructions for that goal type
 5. Target audience: young people at the start of their life journey, finding their calling, digital-native
+6. Messenger integrations (Telegram Bot, VK Bot, MAX Bot) — **may not be in MVP scope**; interaction via shared-goals skill is sufficient for v1
+7. Web site MVP — view goals and statistics only (no transactional interaction)
+8. Goal Discovery — **post-MVP v1**: will be implemented after initial data accumulation in the pilot
 
 > **Critical pre-MVP step:** Selecting the specific MVP Partner is a prerequisite before development starts. The Partner defines the target audience and goal type. Without a confirmed Partner, MVP cannot launch. ([source](https://text.sharedgoals.ru/p2-180-sharedgoals/#mvp))
 
 ### Users
-- Registration via any supported channel: Telegram (`telegram_id`), VK (`vk_id`), MAX (`max_id`)
 - Internal `user.id` (UUID) — channel identifiers are nullable attributes
+- `telegram_id`, `vk_id`, `max_id` — nullable; channel integrations are post-MVP
+- Primary interaction via shared-goals skill (AI companion) in MVP v1
 - No roles, no profiles, no avatars
 
 ### Goals
@@ -301,9 +306,6 @@ graph LR
 - Happy moment count per goal
 - Active participants count (no names)
 - Activity freshness: "Someone invested X minutes this week" (if commits in last 7 days)
-
-### Telegram Bot commands
-`/start` `/goals` `/new_goal` `/join` `/commit` `/my` `/capital`
 
 ---
 
@@ -343,7 +345,7 @@ graph LR
 | Repo | Description |
 |---|---|
 | [shared-goals/instance](https://github.com/shared-goals/instance) | Platform instance — FastAPI backend, SQLite, Jinja2 web UI, REST API |
-| [shared-goals/telegram](https://github.com/shared-goals/telegram) | Telegram bot — user interface for goals, contracts, commits, instructions |
+| [shared-goals/telegram](https://github.com/shared-goals/telegram) | Telegram bot — user interface for goals, contracts, commits, instructions *(не входит в MVP)* |
 | [shared-goals/robbo-provider](https://github.com/shared-goals/robbo-provider) | Robbo partner provider — personalized instructions service (Computer Club pilot) |
 | [shared-goals/skill](https://github.com/shared-goals/skill) | OpenClaw skill — AI companion integration |
 | [shared-goals/prd](https://github.com/shared-goals/prd) | This document |
