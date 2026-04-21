@@ -70,6 +70,9 @@ Seed Network определяется Партнёром MVP. Из Текста 
 ### Q Goal Contagion UX
 ✅ **Закрыт.** UX-правило: свежесть отдельно от счётчика. Если коммиты за 7 дней → «Кто-то вложил X минут на этой неделе». Нет коммитов → только счётчик. Нет участников → «Будь первым».
 
+### Q_partner_vodoplav — Первый кандидат Партнёра MVP
+✅ **Частично закрыт (2026-04-21).** Из Текста (коммит `3a7fea1`): #vodoplav — Александр Бердников, создатель плавдома — приведён в Тексте как пример эксперта-партнёра для желающих проводить время на воде. Вопрос сузился до «есть ли у #vodoplav готовность стать Партнёром MVP?» — остаётся открытым в BACKLOG.
+
 ---
 
 ## История версий
@@ -88,6 +91,7 @@ Seed Network определяется Партнёром MVP. Из Текста 
 | 1.16 | 2026-03-26 | Q_new закрыт, instance_id в Goal |
 | 1.17–1.18 | 2026-03-28–29 | Q Goal Contagion UX закрыт, молитва как Контракт (Антоний Сурожский) |
 | 1.20 | 2026-03-31 | Q_faith закрыт, `skill_tag` в Commit, раздел 10.22 |
+| 1.24 | 2026-04-21 | Коммит 3a7fea1: open harness формулировка уточнена; #vodoplav кандидат Партнёра в Section 4.4 и RESEARCH; Goal Discovery + Education/Travel в README; Harness ecosystem в RESEARCH |
 | 1.23 | 2026-04-21 | Коммиты 2363124, 4eef113: Goal Discovery → post-MVP; Telegram Bot / telegram repo → не в MVP; Harness Engineering + водоплав в RESEARCH; уточнён размах Samara Pub |
 | 1.22 | 2026-04-05 | MVP Partner selection flagged as critical pre-MVP step; Instructions IP model clarified; BACKLOG cleaned up |
 | 1.21 | 2026-04-02 | Рефакторинг структуры репо: README (EN), BACKLOG, HISTORY, RESEARCH |

@@ -22,7 +22,7 @@ A platform where:
 - Interaction is dissolved into familiar channels — Telegram-first
 - No obligation, no manipulative gamification
 - AI companions can log time investments on your behalf via the [shared-goals skill](https://github.com/shared-goals/skill)
-- Shared Goals is itself a **harness for collective human intelligence** — similar to how openclaw and paperclip are harnesses for AI agents, Shared Goals harnesses collective human effort toward shared goals
+- Shared Goals is itself an **open harness for collective human intelligence** — for growing Social Capital and joy — analogous to how openclaw is a harness for AI companions and paperclip for AI agent companies
 
 **The central mechanic:** Goal Contagion. When you see that a person similar to you — same workload, same values — is executing their contract, your own goal activates automatically. Not pressure. Not comparison. Organic motivation.
 
@@ -75,6 +75,8 @@ When a user enters a goal title, the system proactively helps to avoid fragmenta
 2. **Geographic / language variant** — if an analogous goal exists in a different region or language, the system suggests creating a linked variant (inherited attributes, different geo-scope)
 3. **Child / hierarchical goal** — the system can propose a more specific sub-goal inheriting checks, skill distribution, and other attributes from the parent
 
+When existing data is insufficient to find a match, the system can elevate the search to broader categories (e.g. Education, Travel) to suggest existing goals in adjacent areas.
+
 Checks, skill distribution, and other attributes can be inherited from the parent/analogous goal, significantly lowering the creation barrier for new participants.
 
 [source](https://text.sharedgoals.ru/p2-180-sharedgoals/#entity_goal)
@@ -116,6 +118,8 @@ Expert-authored instructions for a goal. Required for MVP — at least one partn
 Participants get clear next steps; experts get visibility and can offer paid services at specific steps.
 
 Instructions that generate more happy moments in execution → highlighted as successful recommendations for experts. ([source](https://text.sharedgoals.ru/p2-180-sharedgoals/#entity_instruction))
+
+**Example Partner:** a water activities expert (#vodoplav) who provides Instructions for people wanting to enjoy time on water — suggesting gear, services, routes. ([source](https://text.sharedgoals.ru/p2-155-photo/#vodoplav))
 
 ---
 
@@ -257,7 +261,7 @@ graph LR
 
 ## 6. MVP Functional Requirements
 
-**MVP scope (from primary source, p2-180, commits 94e12c0, c53f1d2, a613a87, 4eef113):**
+**MVP scope (from primary source, p2-180, commits 94e12c0, c53f1d2, a613a87, 4eef113, 3a7fea1):**
 1. MVP participant already has an AI companion — to eliminate routine time-logging
 2. shared-goals skill implemented: find goals, join via contract, report execution
 3. One target group + one goal type — defined by the MVP Partner
