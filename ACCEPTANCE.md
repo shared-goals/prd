@@ -35,6 +35,25 @@ Minimum domain fixtures:
 Authentication fixture when needed:
 - `agent_key_id`: API key or credential assigned to an agent and scoped to `user_id`; it identifies access, not a platform participant. One user may have many keys for different agents.
 
+Development memory fixtures when needed:
+- `memory_bank_id`: Hindsight-compatible bank or tagged scope used for Shared Goals development memory
+- `memory_tags`: canonical tags from the taxonomy below
+
+## Shared Development Memory Tags
+
+All Shared Goals development memories must use a tiny controlled tag set. Tags are for recall filtering only; kind, phase, status, source links, commit hashes, and rationale belong in the retained content or context.
+
+Required on every retained Shared Goals development memory:
+- `project:sg`
+- `scope:dev`
+
+Tag rules:
+- use lowercase kebab-case only
+- start recall with `project:sg` + `scope:dev`
+- put kind, phase, status, source file, commit hash, PR link, and rationale in memory content/context, not tags
+- do not create tags from private names, secrets, credentials, raw note titles, or temporary terminal/session ids
+- prefer updating the same durable memory document when a decision changes instead of adding near-duplicates
+
 ## Product Acceptance Scenarios
 
 ### SG-MVP-001 - Human Text-base Flow
@@ -110,11 +129,31 @@ Authentication fixture when needed:
 **And** the PRD README stays aligned with the acceptance scenario
 **And** implementation work is limited to the smallest behavior needed to satisfy the scenario
 
+### SG-DEV-003 - Shared Development Memory Sync
+
+**Given** an accepted PRD change, architecture decision, MVP status update, blocker, or partner-scope decision
+**When** the change is finalized in the PRD repo or development workflow
+**Then** a durable summary is retained into the shared development memory bank or tagged project scope
+**And** the memory includes required tags `project:sg` and `scope:dev`
+**And** the memory includes enough context to support future RAG recall: decision, reason, date, source file or commit when available, and current status
+**And** secrets, credentials, raw private notes, routine logs, and noisy terminal output are not retained
+
+### SG-DEV-004 - Shared Development Memory Recall
+
+**Given** an agent starts a Shared Goals PRD, acceptance-test, or implementation task
+**When** the agent recalls project memory
+**Then** it can retrieve current MVP phase, accepted scope, recent decisions, blockers, and relevant partner-status context
+**And** recall starts with tags `project:sg` and `scope:dev`
+**And** the agent treats repository files as source of truth when memory and repo content conflict
+**And** any discovered memory conflict is corrected by retaining an updated fact after the repo state is verified
+
 ## Review Checklist
 
 - Every MVP implementation task maps to at least one acceptance scenario above.
 - Every new scenario states what is intentionally out of scope.
 - Agent-first interaction remains the primary surface.
 - Platform participant identity remains `user_id`; agent keys authenticate access but do not become participants.
+- Shared development memory is a RAG coordination layer, not the source of truth.
+- Shared development memory uses only canonical tags from this document.
 - Partner behavior is concrete enough to test.
 - Goal Discovery remains post-MVP unless this PRD explicitly changes scope.

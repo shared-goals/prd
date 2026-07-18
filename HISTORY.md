@@ -79,6 +79,7 @@ Seed Network определяется Партнёром MVP. Из Текста 
 
 | Версия | Дата | Изменения |
 |---|---|---|
+| 1.28 | 2026-07-18 | README/ACCEPTANCE: добавлена shared development memory/RAG как coordination layer для решений, MVP status и blockers; PRD/git зафиксированы как source of truth; canonical tags упрощены до `project:sg` + `scope:dev`; добавлены KISS/DRY/YAGNI principles |
 | 1.27 | 2026-07-18 | Добавлен ACCEPTANCE.md как TDD-first acceptance layer для MVP; README связан с acceptance spec; уточнены platform anti-goals и user-scoped agent keys |
 | 1.26 | 2026-07-18 | README: Development Process приведён к шестифазному MVP-плану; acceptance lanes разделены на product и PRD-maintenance; простой поиск целей отделён от post-MVP Goal Discovery |
 | 1.25 | 2026-07-18 | README: добавлена основная vision Shared Goals как agent-facing платформы; добавлен TDD-first development process; agent-platform пример заменён на Hermes-compatible формулировку в README; неактуальные AI-runtime детали удалены из диаграмм |

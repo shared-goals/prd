@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.27 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.28 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -282,6 +282,9 @@ graph LR
 Shared Goals development starts from executable use-case specifications, then implementation. This section is the development contract for starting MVP work.
 
 ### Development principles
+- **KISS:** prefer the simplest working contract, schema, and workflow
+- **DRY:** keep one source of truth for every decision, status, and data field
+- **YAGNI:** do not add platform features, tags, services, or abstractions before a concrete MVP scenario needs them
 - **Spec first:** update this PRD before changing product behavior
 - **Tests second:** encode the changed use case as an acceptance test before implementation
 - **Implementation third:** build the smallest platform behavior that satisfies the test
@@ -306,6 +309,21 @@ Shared Goals development starts from executable use-case specifications, then im
 
 ### Development maintenance lane
 - **PRD maintenance flow:** README changes in the source Text can be classified into README, BACKLOG, HISTORY, and RESEARCH updates through the `sg-prd` skill.
+- **Shared memory flow:** durable Shared Goals development decisions, MVP status changes, blockers, and accepted scope changes are retained into a shared RAG memory layer so agents can recall current project context before acting.
+
+### Shared development memory (RAG)
+
+Shared Goals development uses shared agent memory as a coordination layer for the people and agents working on the MVP. The PRD repository remains the source of truth; memory is a recall layer over accepted decisions, status, and context.
+
+Initial development can use an existing Hindsight memory bank, such as the local Hermes bank already configured for the architect's agent. As more agents or contributors join, this should move to a dedicated Shared Goals project bank or a strictly tagged project scope.
+
+Memory sync rules:
+- **Retain:** accepted PRD changes, architecture decisions, MVP status updates, blockers, test decisions, and partner-scope decisions
+- **Recall:** at the start of Shared Goals development tasks, PRD updates, test writing, and implementation work
+- **Tags:** every retained development memory uses the minimal canonical tags defined in `ACCEPTANCE.md`, starting with `project:sg` and `scope:dev`
+- **Do not retain:** secrets, credentials, raw private user notes, routine logs, or noisy terminal output
+- **Source of truth:** when memory conflicts with repository files, the PRD repo wins and memory must be corrected
+- **Integration path:** agents may use Hindsight through Hermes or GitHub Copilot MCP integration; implementation details are operational, not product-domain entities
 
 ---
 
@@ -338,6 +356,7 @@ Shared Goals development starts from executable use-case specifications, then im
 - **Hosting:** Linux VPS, independent from agent runtime infrastructure
 - **Multi-instance:** `instance_id: str = "default"` in Goal model — foundation for future federated instances (government ESIA, bank loyalty, international). No multi-tenancy logic in MVP.
 - **AI skill:** shared-goals skill for Hermes-compatible agents. Operations: `find_goals`, `join_goal`, `commit`, `get_summary`. Channel-agnostic — works via any AI companion.
+- **Development memory:** Hindsight-compatible shared memory is used for RAG over project decisions and MVP status. It is not the product database and not a replacement for PRD/git history.
 
 ## Repositories
 
