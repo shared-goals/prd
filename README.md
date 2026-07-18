@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.30 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.31 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -354,7 +354,7 @@ Memory sync rules:
 
 - **Backend:** Python, FastAPI, SQLAlchemy + Alembic
 - **DB:** SQLite (MVP) → PostgreSQL
-- **Hosting:** Linux VPS, independent from agent runtime infrastructure
+- **Hosting:** Linux host, independent from agent runtime infrastructure. Development runs from a local development workstation; controlled MVP production can run on a private Armbian homelab host; external Debian VPS is the public-production path when reliability and public access matter.
 - **Multi-instance:** `instance_id: str = "default"` in Goal model — foundation for future federated instances (government ESIA, bank loyalty, international). No multi-tenancy logic in MVP.
 - **AI skill:** shared-goals skill for Hermes-compatible agents. Operations: `find_goals`, `create_goal`, `join_goal`, `log_commit`, `request_advice`, `get_summary`. Channel-agnostic — works via any AI companion.
 - **Development memory:** Hindsight-compatible shared memory is used for RAG over project decisions and MVP status. It is not the product database and not a replacement for PRD/git history.
