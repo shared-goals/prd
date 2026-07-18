@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.26 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.27 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -291,7 +291,7 @@ Shared Goals development starts from executable use-case specifications, then im
 
 ### Phased implementation plan
 1. **Freeze the MVP contract:** keep the scope centered on agent-mediated human interaction, create/join goals, contract logging, and advice/instruction delivery. Messenger integrations and proactive Goal Discovery stay out of MVP.
-2. **Write the TDD acceptance layer:** specify the agent/user use cases before implementation: human text-base work, goal creation/joining, contract commits, advice retrieval, and the first partner-driven goal path.
+2. **Write the TDD acceptance layer:** specify the agent/user use cases before implementation in `ACCEPTANCE.md`: human text-base work, goal creation/joining, contract commits, advice retrieval, and the first partner-driven goal path.
 3. **Separate runtime from PRD maintenance:** keep `shared-goals` skill as the model boundary, keep Daily Compass-style scripts as execution boundaries, and let `sg-prd` own diff-first PRD upkeep.
 4. **Implement the minimal agent-first flow:** expose only the operations agents need to create or join goals, log progress autonomously, and receive instructions/advice without requiring a human UI.
 5. **Add the first partner-driven category:** treat partner goals as real specialized goals with instruction/subscription behavior, not as generic placeholders.
@@ -357,6 +357,7 @@ Shared Goals development starts from executable use-case specifications, then im
 | `BACKLOG.md` | 🇷🇺 Russian | Open questions + active feedback |
 | `HISTORY.md` | 🇷🇺 Russian | Closed decisions + version history |
 | `RESEARCH.md` | 🇷🇺 Russian | Academic references, analogues, findings |
+| `ACCEPTANCE.md` | 🇬🇧 English | MVP acceptance scenarios for TDD-first development |
 | `data-model-spec.md` | 🇬🇧/🇷🇺 | Data model specification |
 
 **Primary source:** [text.sharedgoals.ru/p2-180-sharedgoals](https://text.sharedgoals.ru/p2-180-sharedgoals/) (Russian)

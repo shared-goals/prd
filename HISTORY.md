@@ -79,6 +79,7 @@ Seed Network определяется Партнёром MVP. Из Текста 
 
 | Версия | Дата | Изменения |
 |---|---|---|
+| 1.27 | 2026-07-18 | Добавлен ACCEPTANCE.md как TDD-first acceptance layer для MVP; README связан с acceptance spec; уточнены platform anti-goals и user-scoped agent keys |
 | 1.26 | 2026-07-18 | README: Development Process приведён к шестифазному MVP-плану; acceptance lanes разделены на product и PRD-maintenance; простой поиск целей отделён от post-MVP Goal Discovery |
 | 1.25 | 2026-07-18 | README: добавлена основная vision Shared Goals как agent-facing платформы; добавлен TDD-first development process; agent-platform пример заменён на Hermes-compatible формулировку в README; неактуальные AI-runtime детали удалены из диаграмм |
 | 0.1 | 2026-02-16 | Первичный спек моделей данных |
