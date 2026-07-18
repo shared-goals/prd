@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.24 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.25 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -16,13 +16,17 @@ The core insight from research (Matthews, Dominican University, 2007): people wh
 
 **Positioning:** Shared Goals is an open platform for social architects and citizens — a model of motivations and development recommendations that multiply joy in people's lives worldwide.
 
+**Main vision:** Shared Goals is an agent-facing platform for collective human development. Humans interact through their own AI companions, equipped with the `shared-goals` skill; the platform gives those agents a shared protocol for creating goals, joining them through personal time contracts, logging real progress, and receiving practical instructions for the next meaningful step.
+
+The first product surface is not a standalone consumer app. It is a service used by agents, including Hermes agents, that can read and write around a person's ordinary text base — Markdown files, Obsidian notes, or another structured workspace — and translate everyday planning into shared goals, commits, and advice loops.
+
 A platform where:
 - You can see that others are moving toward the same goals (without comparing results)
 - You fix a time contract with yourself
 - Interaction is dissolved into any familiar channel — the AI companion handles it
 - No obligation, no manipulative gamification
 - AI companions can log time investments on your behalf via the [shared-goals skill](https://github.com/shared-goals/skill)
-- Shared Goals is itself an **open harness for collective human intelligence** — for growing Social Capital and joy — analogous to how openclaw is a harness for AI companions and paperclip for AI agent companies
+- Shared Goals is itself an **open harness for collective human intelligence** — for growing Social Capital and joy — analogous to how Hermes is an agent platform and paperclip is a platform for AI agent companies
 
 **The central mechanic:** Goal Contagion. When you see that a person similar to you — same workload, same values — is executing their contract, your own goal activates automatically. Not pressure. Not comparison. Organic motivation.
 
@@ -193,19 +197,11 @@ graph TB
         PARTNER[Partner Service]
     end
 
-    subgraph Cluster
-        LLM[LLM / Ollama]
-        Thunder[thunder-forge]
-        Thunder --> Ollama
-    end
-
     AI --> API
     QR --> API
     API --> DB
     API --> MOD
     API --> PARTNER
-    MOD --> LLM
-    AI --> LLM
 ```
 
 ### 5.3 Physical — Infrastructure (MVP)
@@ -223,15 +219,8 @@ graph LR
         API --> DB
     end
 
-    subgraph Cluster
-        Ollama[Ollama]
-        Thunder[thunder-forge]
-        Thunder --> Ollama
-    end
-
     Agent --> API
     Browser --> API
-    API --> Ollama
 ```
 ---
 
@@ -288,7 +277,28 @@ graph LR
 
 ---
 
-## 7. Success Metrics (MVP)
+## 7. Development Process (TDD-first MVP)
+
+Shared Goals development starts from executable use-case specifications, then implementation.
+
+### Development principles
+- **Spec first:** update this PRD before changing product behavior
+- **Tests second:** encode the changed use case as an acceptance test before implementation
+- **Implementation third:** build the smallest platform behavior that satisfies the test
+- **Agent-first:** every MVP workflow must be usable by an agent equipped with the `shared-goals` skill
+- **Human text base:** agents may use ordinary Markdown-like files with tags and structure as the working context for goals, commits, and advice
+- **PRD upkeep:** the PRD can be updated by the `sg-prd` skill, which reacts to changes in the source Text through a diff-first workflow
+
+### MVP acceptance lanes
+1. **Agent goal flow:** an agent can create or find a goal, help the human join it through a contract, and log a commit.
+2. **Advice flow:** an agent can ask the platform for instructions or next-step advice for an active contract.
+3. **Partner flow:** a partner-driven goal can provide specialized instructions, including subscription-backed advice when applicable.
+4. **Text-base flow:** an agent can derive or update goal context from the human's normal Markdown/text workspace without requiring a separate manual UI.
+5. **PRD maintenance flow:** README changes in the source Text can be classified into README, BACKLOG, HISTORY, and RESEARCH updates through the PRD skill.
+
+---
+
+## 8. Success Metrics (MVP)
 
 | Metric | Description | MVP target |
 |---|---|---|
@@ -301,7 +311,7 @@ graph LR
 
 ---
 
-## 8. Anti-goals
+## 9. Anti-goals
 
 - No leaderboards or personal rankings
 - No streaks or push reminders (by default)
@@ -310,13 +320,13 @@ graph LR
 
 ---
 
-## 9. Architecture decisions
+## 10. Architecture decisions
 
 - **Backend:** Python, FastAPI, SQLAlchemy + Alembic
 - **DB:** SQLite (MVP) → PostgreSQL
-- **Hosting:** Linux VPS, separate from OpenClaw infrastructure
+- **Hosting:** Linux VPS, independent from agent runtime infrastructure
 - **Multi-instance:** `instance_id: str = "default"` in Goal model — foundation for future federated instances (government ESIA, bank loyalty, international). No multi-tenancy logic in MVP.
-- **AI skill:** shared-goals skill (OpenClaw). Operations: `find_goals`, `join_goal`, `commit`, `get_summary`. Channel-agnostic — works via any AI companion.
+- **AI skill:** shared-goals skill for Hermes-compatible agents. Operations: `find_goals`, `join_goal`, `commit`, `get_summary`. Channel-agnostic — works via any AI companion.
 
 ## Repositories
 
@@ -324,12 +334,12 @@ graph LR
 |---|---|
 | [shared-goals/instance](https://github.com/shared-goals/instance) | Platform instance — FastAPI backend, SQLite, Jinja2 web UI, REST API |
 | [shared-goals/robbo-provider](https://github.com/shared-goals/robbo-provider) | Robbo partner provider — personalized instructions service (Computer Club pilot) |
-| [shared-goals/skill](https://github.com/shared-goals/skill) | OpenClaw skill — AI companion integration |
+| [shared-goals/skill](https://github.com/shared-goals/skill) | Hermes-compatible skill — AI companion integration |
 | [shared-goals/prd](https://github.com/shared-goals/prd) | This document |
 
 ---
 
-## 10. Related documents
+## 11. Related documents
 
 | File | Language | Contents |
 |---|---|---|

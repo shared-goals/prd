@@ -79,6 +79,7 @@ Seed Network определяется Партнёром MVP. Из Текста 
 
 | Версия | Дата | Изменения |
 |---|---|---|
+| 1.25 | 2026-07-18 | README: добавлена основная vision Shared Goals как agent-facing платформы; добавлен TDD-first development process; agent-platform пример заменён на Hermes-compatible формулировку в README; неактуальные AI-runtime детали удалены из диаграмм |
 | 0.1 | 2026-02-16 | Первичный спек моделей данных |
 | 0.2 | 2026-03-02 | PRD структура, visibility, анонимность, Q1–Q5 закрыты |
 | 0.7 | 2026-03-03 | Q8 закрыт, персонаж зависимости, Matthews 2007, shared-goals skill |
