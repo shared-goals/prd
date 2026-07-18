@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.25 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.26 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -245,7 +245,7 @@ graph LR
 
 ### Goals
 - Create a goal (title, description, visibility)
-- Find public goals (list + text search)
+- Find public goals by simple catalog list + text search only; proactive Goal Discovery and deduplication stay post-MVP
 - Share goal (link / QR)
 - AI auto-check on public goal creation (4 humanistic criteria — openly published)
 - Dispute mechanism: comment with mandatory explanation of violation → re-check
@@ -279,7 +279,7 @@ graph LR
 
 ## 7. Development Process (TDD-first MVP)
 
-Shared Goals development starts from executable use-case specifications, then implementation.
+Shared Goals development starts from executable use-case specifications, then implementation. This section is the development contract for starting MVP work.
 
 ### Development principles
 - **Spec first:** update this PRD before changing product behavior
@@ -289,12 +289,23 @@ Shared Goals development starts from executable use-case specifications, then im
 - **Human text base:** agents may use ordinary Markdown-like files with tags and structure as the working context for goals, commits, and advice
 - **PRD upkeep:** the PRD can be updated by the `sg-prd` skill, which reacts to changes in the source Text through a diff-first workflow
 
-### MVP acceptance lanes
-1. **Agent goal flow:** an agent can create or find a goal, help the human join it through a contract, and log a commit.
-2. **Advice flow:** an agent can ask the platform for instructions or next-step advice for an active contract.
-3. **Partner flow:** a partner-driven goal can provide specialized instructions, including subscription-backed advice when applicable.
-4. **Text-base flow:** an agent can derive or update goal context from the human's normal Markdown/text workspace without requiring a separate manual UI.
-5. **PRD maintenance flow:** README changes in the source Text can be classified into README, BACKLOG, HISTORY, and RESEARCH updates through the PRD skill.
+### Phased implementation plan
+1. **Freeze the MVP contract:** keep the scope centered on agent-mediated human interaction, create/join goals, contract logging, and advice/instruction delivery. Messenger integrations and proactive Goal Discovery stay out of MVP.
+2. **Write the TDD acceptance layer:** specify the agent/user use cases before implementation: human text-base work, goal creation/joining, contract commits, advice retrieval, and the first partner-driven goal path.
+3. **Separate runtime from PRD maintenance:** keep `shared-goals` skill as the model boundary, keep Daily Compass-style scripts as execution boundaries, and let `sg-prd` own diff-first PRD upkeep.
+4. **Implement the minimal agent-first flow:** expose only the operations agents need to create or join goals, log progress autonomously, and receive instructions/advice without requiring a human UI.
+5. **Add the first partner-driven category:** treat partner goals as real specialized goals with instruction/subscription behavior, not as generic placeholders.
+6. **Keep development control simple:** the default Hermes instance is enough for MVP start; a separate Hermes profile can be introduced later.
+
+### Product acceptance lanes
+1. **Human text-base flow:** an agent can derive or update goal context from the human's normal Markdown/text workspace without requiring a separate manual UI.
+2. **Agent goal flow:** an agent can create a goal or find an existing public goal through simple catalog lookup, then help the human join it through a contract.
+3. **Commit flow:** an agent can log progress against an active contract, including time, `done`, optional `next_step`, `skill_tag`, and `is_happy_moment`.
+4. **Advice flow:** an agent can ask the platform for instructions or next-step advice for an active contract.
+5. **Partner flow:** a partner-driven goal can provide specialized instructions, including subscription-backed advice when applicable.
+
+### Development maintenance lane
+- **PRD maintenance flow:** README changes in the source Text can be classified into README, BACKLOG, HISTORY, and RESEARCH updates through the `sg-prd` skill.
 
 ---
 
