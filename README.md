@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.28 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.30 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -119,11 +119,11 @@ Expert-authored instructions for a goal. Required for MVP — at least one partn
 
 **Monetization point:** Experts and partner franchises do not reveal their full know-how — they provide a general overview of the path toward the goal and focus on concrete current-moment recommendations. Instructions are generated on the partner's side, on demand, taking into account the participant's profile. This reduces cognitive load on the participant and protects the partner's IP.
 
-Participants get clear next steps; experts get visibility and can offer paid services at specific steps.
+Participants get clear next steps; partner providers can offer advice to goal members, including subscription-backed recommendations when appropriate.
 
 Instructions that generate more happy moments in execution → highlighted as successful recommendations for experts. ([source](https://text.sharedgoals.ru/p2-180-sharedgoals/#entity_instruction))
 
-**Example Partner:** a water activities expert (#vodoplav) who provides Instructions for people wanting to enjoy time on water — suggesting gear, services, routes. ([source](https://text.sharedgoals.ru/p2-155-photo/#vodoplav))
+**Example Partner:** Plavdom (#vodoplav), a goal around constructing river houses — not generic water activity. A partner provider can advise goal members on current practical steps toward building a floating home, with possible subscription-backed guidance. ([source](https://text.sharedgoals.ru/p2-155-photo/#vodoplav))
 
 ---
 
@@ -310,6 +310,7 @@ Shared Goals development starts from executable use-case specifications, then im
 ### Development maintenance lane
 - **PRD maintenance flow:** README changes in the source Text can be classified into README, BACKLOG, HISTORY, and RESEARCH updates through the `sg-prd` skill.
 - **Shared memory flow:** durable Shared Goals development decisions, MVP status changes, blockers, and accepted scope changes are retained into a shared RAG memory layer so agents can recall current project context before acting.
+- **Implementation contract flow:** backend work starts from `IMPLEMENTATION.md`, which maps acceptance scenarios to HTTP-level tests and the minimal agent API contract.
 
 ### Shared development memory (RAG)
 
@@ -355,17 +356,34 @@ Memory sync rules:
 - **DB:** SQLite (MVP) → PostgreSQL
 - **Hosting:** Linux VPS, independent from agent runtime infrastructure
 - **Multi-instance:** `instance_id: str = "default"` in Goal model — foundation for future federated instances (government ESIA, bank loyalty, international). No multi-tenancy logic in MVP.
-- **AI skill:** shared-goals skill for Hermes-compatible agents. Operations: `find_goals`, `join_goal`, `commit`, `get_summary`. Channel-agnostic — works via any AI companion.
+- **AI skill:** shared-goals skill for Hermes-compatible agents. Operations: `find_goals`, `create_goal`, `join_goal`, `log_commit`, `request_advice`, `get_summary`. Channel-agnostic — works via any AI companion.
 - **Development memory:** Hindsight-compatible shared memory is used for RAG over project decisions and MVP status. It is not the product database and not a replacement for PRD/git history.
 
 ## Repositories
 
-| Repo | Description |
-|---|---|
-| [shared-goals/instance](https://github.com/shared-goals/instance) | Platform instance — FastAPI backend, SQLite, Jinja2 web UI, REST API |
-| [shared-goals/robbo-provider](https://github.com/shared-goals/robbo-provider) | Robbo partner provider — personalized instructions service (Computer Club pilot) |
-| [shared-goals/skill](https://github.com/shared-goals/skill) | Hermes-compatible skill — AI companion integration |
-| [shared-goals/prd](https://github.com/shared-goals/prd) | This document |
+### Core platform
+
+| Repo | Status | Description |
+|---|---|---|
+| [shared-goals/prd](https://github.com/shared-goals/prd) | Active | Source of truth for product decisions, acceptance criteria, implementation contract, history, and research |
+| [shared-goals/instance](https://github.com/shared-goals/instance) | Active, implementation target | Platform instance — FastAPI backend, SQLite, Jinja2 web UI, REST API |
+| [shared-goals/skill](https://github.com/shared-goals/skill) | Active | Hermes-compatible skill — AI companion integration |
+
+### Tooling and infrastructure
+
+| Repo | Status | Description |
+|---|---|---|
+| [shared-goals/text-forge](https://github.com/shared-goals/text-forge) | Active | Tooling for long-form Markdown texts: site, EPUB, AI-readable export, source inventory, and memory projection |
+| [shared-goals/thunder-forge](https://github.com/shared-goals/thunder-forge) | Active | Self-hosted AI infrastructure layer for Shared Goals agents and private local inference |
+
+### Source texts and future partner providers
+
+| Repo | Status | Description |
+|---|---|---|
+| [bongiozzo/whattodo](https://github.com/bongiozzo/whattodo) | External personal source | Sergey Polyakov's WTD source text, philosophical roots, and public reflection on happiness and Shared Goals |
+| [shared-goals/robbo](https://github.com/shared-goals/robbo) | Planned, repo exists | ROBBO partner provider candidate for the Computer Club pilot |
+| shared-goals/plavdom | Planned, not created | Partner provider candidate for the shared goal of constructing river houses |
+| shared-goals/pm-forge | Planned, not created | Project/product-management partner provider candidate |
 
 ---
 
@@ -377,6 +395,7 @@ Memory sync rules:
 | `HISTORY.md` | 🇷🇺 Russian | Closed decisions + version history |
 | `RESEARCH.md` | 🇷🇺 Russian | Academic references, analogues, findings |
 | `ACCEPTANCE.md` | 🇬🇧 English | MVP acceptance scenarios for TDD-first development |
+| `IMPLEMENTATION.md` | 🇬🇧 English | Backend acceptance-test mapping and minimal agent API contract |
 | `data-model-spec.md` | 🇬🇧/🇷🇺 | Data model specification |
 
 **Primary source:** [text.sharedgoals.ru/p2-180-sharedgoals](https://text.sharedgoals.ru/p2-180-sharedgoals/) (Russian)
