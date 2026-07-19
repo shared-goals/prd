@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.33 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.34 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -261,6 +261,7 @@ graph LR
 - Agents can analyze user activity and Compass updates, then propose commits for completed items.
 - All create, update, and delete operations require explicit user approval in MVP.
 - The platform stores normalized goals, contracts, commits, and recommendations; private Markdown remains outside public aggregates by default.
+- `GET /api/v1/compass/next-steps` is the agent-facing platform feed for active joined-contract `next_step` items, including goal tags but excluding private Markdown source text.
 
 ### Goals
 - Create a goal (title, description, visibility)

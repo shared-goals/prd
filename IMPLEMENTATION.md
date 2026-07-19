@@ -8,6 +8,7 @@ Build the smallest FastAPI + SQLite backend that allows agents equipped with the
 - find or create a goal
 - join a goal through a personal time contract
 - list the user's active joined goals/contracts for `Compass.md`
+- fetch active joined-contract `next_step` items as a platform Compass feed
 - log a commit against that contract
 - request current-step advice or instructions
 - read anonymous goal aggregates
@@ -38,7 +39,7 @@ Use SQLite in a temporary database for tests. Use concrete fixture values from `
 
 | Acceptance ID | Backend acceptance test intent | Minimal API surface | Out-of-scope guard |
 |---|---|---|---|
-| SG-MVP-001 | Agent can use `Compass.md` tags to resolve joined goals/contracts and sync normalized planning context without storing private source text | `GET /api/v1/contracts`, `GET /api/v1/contracts/{contract_id}/advice`, `POST /api/v1/contracts/{contract_id}/commits` | No raw Markdown workspace import in MVP backend |
+| SG-MVP-001 | Agent can use `Compass.md` tags to resolve joined goals/contracts and sync normalized planning context without storing private source text | `GET /api/v1/contracts`, `GET /api/v1/compass/next-steps`, `GET /api/v1/contracts/{contract_id}/advice`, `POST /api/v1/contracts/{contract_id}/commits` | No raw Markdown workspace import in MVP backend |
 | SG-MVP-002 | Agent can create a non-competitive goal with optional human-readable `goal_id` and receive a machine-readable response | `POST /api/v1/goals` | No proactive deduplication or hierarchy |
 | SG-MVP-003 | Agent can join a public goal through a personal contract and reduce time later | `POST /api/v1/goals/{goal_id}/contracts`, `PATCH /api/v1/contracts/{contract_id}` | No reminders, streaks, ranking, or channel-specific identity |
 | SG-MVP-004 | Agent can propose a commit from a completed Compass item and, after user approval, log progress with time, done text, optional next step, skill tag, and happy moment flag | `POST /api/v1/contracts/{contract_id}/commits` | Public views remain anonymous by default; no unapproved CUD |
@@ -126,6 +127,15 @@ Returns the authenticated user's active joined goals/contracts for agent plannin
 Response fields:
 - `contracts: list`
 - each item includes `contract_id`, `goal_id`, `goal_tag`, `goal_title`, `cadence`, `time_minutes`, `is_active`, `latest_next_step`
+
+`GET /api/v1/compass/next-steps`
+
+Returns the authenticated user's active joined-contract `next_step` items as an agent-facing platform feed for `Compass.md`. This is the replacement path for local area-registry assumptions when the agent needs platform-backed next steps.
+
+Response fields:
+- `next_steps: list`
+- each item includes `contract_id`, `goal_id`, `goal_tag`, `goal_title`, `next_step`, `cadence`, `time_minutes`, `skill_tag`, `is_happy_moment`, `source`
+- private `source_ref` / Markdown source text is not exposed
 
 ### Commits
 

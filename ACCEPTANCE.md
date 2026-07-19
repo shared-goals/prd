@@ -71,6 +71,7 @@ Tag rules:
 **When** the user asks the agent to connect current planning context to Shared Goals
 **Then** the agent can resolve the tags to joined goals/contracts without requiring a separate manual UI
 **And** Compass items can represent `next_step` recommendations from joined Shared Goals
+**And** the platform can return an agent-facing `next_step` feed for active joined contracts
 **And** generated views can group the same items by goal or by psychology without duplicating source tasks
 **And** the platform stores only the normalized goal/contract/commit data needed for the MVP
 **And** private source text remains outside public aggregates by default
