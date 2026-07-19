@@ -7,13 +7,14 @@ This document is the TDD-first acceptance layer for the Shared Goals MVP. It tur
 These scenarios cover the MVP only:
 - humans interact through agents equipped with the `shared-goals` skill
 - agents create or join goals, create contracts, log commits, and request advice
-- agents may use a human's ordinary Markdown/text workspace as context
+- agents may use `Compass.md` as a human-readable planning base across the four psychologies: `faith`, `will`, `feeling`, and `mind`
 - partner-driven goals can return specialized instructions and subscription-backed advice
 
 Out of scope for MVP acceptance:
 - messenger-specific integrations
 - proactive Goal Discovery and deduplication
 - standalone consumer UI as the primary interaction surface
+- backend parsing of private Markdown files as a storage/import feature
 
 Permanent platform anti-goals:
 - leaderboards and personal rankings
@@ -27,10 +28,12 @@ Use one concrete MVP partner goal type when running acceptance tests. Until the 
 
 Minimum domain fixtures:
 - `user_id`: platform participant; internal UUID, no channel identifier
-- `goal_id`: shared goal visible in the MVP instance
+- `goal_id`: shared goal visible in the MVP instance; may be human-readable, such as `sg-music` or `sg-oss-coding`
 - `contract_id`: active personal time contract for the user and goal
 - `commit_id`: logged progress item against the contract
 - `partner_id`: instruction provider for the partner-driven goal
+- `compass_file_name`: `Compass.md`
+- `markdown_goal_tag`: human-readable Markdown tag such as `#sg-music`; normalized to `goal_id = "sg-music"`
 
 Authentication fixture when needed:
 - `agent_key_id`: API key or credential assigned to an agent and scoped to `user_id`; it identifies access, not a platform participant. One user may have many keys for different agents.
@@ -56,19 +59,23 @@ Tag rules:
 
 ## Product Acceptance Scenarios
 
-### SG-MVP-001 - Human Text-base Flow
+### SG-MVP-001 - Compass Planning-base Flow
 
-**Given** a user works with an agent using Markdown-like files with tags and structure
+**Given** a user works with an agent using `Compass.md` as a Markdown planning base
+**And** the planning base contains human-readable Shared Goals tags such as `#sg-music` or `#sg-oss-coding`
 **When** the user asks the agent to connect current planning context to Shared Goals
-**Then** the agent can identify candidate goal context without requiring a separate manual UI
+**Then** the agent can resolve the tags to joined goals/contracts without requiring a separate manual UI
+**And** Compass items can represent `next_step` recommendations from joined Shared Goals
 **And** the platform stores only the normalized goal/contract/commit data needed for the MVP
 **And** private source text remains outside public aggregates by default
+**And** create, update, and delete operations are proposed to the user before the agent calls the platform
 
 ### SG-MVP-002 - Create Goal Through Agent
 
 **Given** the user expresses a concrete non-competitive goal through an agent
 **When** the agent calls the platform to create the goal
 **Then** the platform creates a goal with title, description, visibility, and `instance_id`
+**And** trusted agent-created MVP goals may use a human-readable `goal_id`, such as `sg-oss-coding`
 **And** public goals pass the four humanistic criteria check
 **And** the response is usable by the agent without human UI steps
 
@@ -83,7 +90,8 @@ Tag rules:
 ### SG-MVP-004 - Log Commit Autonomously
 
 **Given** the user has an active contract
-**When** the agent logs progress on the user's behalf
+**And** `Compass.md` contains a completed item tagged to the contract's joined goal
+**When** the agent proposes a commit and the user approves it
 **Then** the platform records `time_minutes`, `done`, optional `next_step`, `skill_tag`, and `is_happy_moment`
 **And** `done` can be derived from a previous `next_step` when appropriate
 **And** the commit is anonymous by default in public views
@@ -92,8 +100,10 @@ Tag rules:
 
 **Given** the user has an active contract for a goal with instructions
 **When** the agent asks the platform for the next useful recommendation
-**Then** the platform returns current-moment advice or instructions for that goal
+**Then** the platform returns current-moment advice, instructions, or recommended `next_step` items for that goal
 **And** the response is suitable for the agent to explain or act on
+**And** recommended `next_step` items can be inserted into `Compass.md` after user approval
+**And** recommendations can be prioritized by historical `is_happy_moment` outcomes when enough data exists
 **And** advice is framed as a recommendation, not obligation or pressure
 
 ### SG-MVP-006 - Partner-driven Goal Instructions

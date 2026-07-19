@@ -7,6 +7,7 @@ This document translates `ACCEPTANCE.md` into the first implementation-facing co
 Build the smallest FastAPI + SQLite backend that allows agents equipped with the `shared-goals` skill to:
 - find or create a goal
 - join a goal through a personal time contract
+- list the user's active joined goals/contracts for `Compass.md`
 - log a commit against that contract
 - request current-step advice or instructions
 - read anonymous goal aggregates
@@ -20,6 +21,7 @@ Implementation starts with backend acceptance tests. Unit tests can exist undern
 Recommended first test files in `shared-goals/instance`:
 - `tests/acceptance/test_agent_goal_flow.py`
 - `tests/acceptance/test_contract_commit_flow.py`
+- `tests/acceptance/test_compass_planning_flow.py`
 - `tests/acceptance/test_advice_and_partner_flow.py`
 - `tests/acceptance/test_anonymous_aggregates.py`
 
@@ -29,11 +31,11 @@ Use SQLite in a temporary database for tests. Use concrete fixture values from `
 
 | Acceptance ID | Backend acceptance test intent | Minimal API surface | Out-of-scope guard |
 |---|---|---|---|
-| SG-MVP-001 | Agent can submit normalized goal/contract context derived from text without storing private source text in public data | `POST /api/v1/goals`, `POST /api/v1/goals/{goal_id}/contracts` | No raw Markdown workspace import in MVP backend |
-| SG-MVP-002 | Agent can create a non-competitive goal and receive a machine-readable response | `POST /api/v1/goals` | No proactive deduplication or hierarchy |
+| SG-MVP-001 | Agent can use `Compass.md` tags to resolve joined goals/contracts and sync normalized planning context without storing private source text | `GET /api/v1/contracts`, `GET /api/v1/contracts/{contract_id}/advice`, `POST /api/v1/contracts/{contract_id}/commits` | No raw Markdown workspace import in MVP backend |
+| SG-MVP-002 | Agent can create a non-competitive goal with optional human-readable `goal_id` and receive a machine-readable response | `POST /api/v1/goals` | No proactive deduplication or hierarchy |
 | SG-MVP-003 | Agent can join a public goal through a personal contract and reduce time later | `POST /api/v1/goals/{goal_id}/contracts`, `PATCH /api/v1/contracts/{contract_id}` | No reminders, streaks, ranking, or channel-specific identity |
-| SG-MVP-004 | Agent can log progress with time, done text, optional next step, skill tag, and happy moment flag | `POST /api/v1/contracts/{contract_id}/commits` | Public views remain anonymous by default |
-| SG-MVP-005 | Agent can request advice for an active contract and receive recommendation-style guidance | `GET /api/v1/contracts/{contract_id}/advice` | Advice is not obligation or pressure |
+| SG-MVP-004 | Agent can propose a commit from a completed Compass item and, after user approval, log progress with time, done text, optional next step, skill tag, and happy moment flag | `POST /api/v1/contracts/{contract_id}/commits` | Public views remain anonymous by default; no unapproved CUD |
+| SG-MVP-005 | Agent can request advice for an active contract and receive recommendation-style `next_step` ideas suitable for Compass insertion | `GET /api/v1/contracts/{contract_id}/advice` | Advice is not obligation or pressure; no unapproved CUD |
 | SG-MVP-006 | Partner-driven goal can route guidance through a partner instruction provider stub | `GET /api/v1/contracts/{contract_id}/advice` | No full partner methodology or paid-service workflow required |
 | SG-MVP-007 | Backend can return anonymous Social Capital, active participants, happy moments, and activity freshness | `GET /api/v1/goals/{goal_id}/summary` | No personal rankings or named comparisons |
 
@@ -52,6 +54,7 @@ Common response rules:
 - return validation errors as structured JSON
 - include enough state for the agent to decide the next action
 - never expose private source text in public aggregate responses
+- create, update, and delete requests include `user_approved: true` in MVP acceptance tests; the flag represents explicit user approval collected by the agent
 
 ### Goals
 
@@ -62,10 +65,12 @@ Returns a simple catalog search over public goals. MVP search can be title/descr
 `POST /api/v1/goals`
 
 Request fields:
+- `goal_id: str | null` (optional stable human-readable ID, normalized without Markdown `#` prefix)
 - `title: str`
 - `description: str`
 - `visibility: public | invite | personal`
 - `instance_id: str = "default"`
+- `user_approved: bool`
 
 Response fields:
 - `goal_id`
@@ -78,6 +83,8 @@ Response fields:
 
 Public goals must pass the four humanistic criteria from `README.md`. For MVP tests, this can be a deterministic moderation function or stub with explicit pass/fail cases.
 
+Human-readable goal IDs such as `sg-music` or `sg-oss-coding` are allowed for trusted MVP agent-created goals. In `Compass.md`, the corresponding Markdown tags are written as `#sg-music` or `#sg-oss-coding`.
+
 ### Contracts
 
 `POST /api/v1/goals/{goal_id}/contracts`
@@ -85,6 +92,7 @@ Public goals must pass the four humanistic criteria from `README.md`. For MVP te
 Request fields:
 - `cadence: daily | weekly | monthly | occasionally`
 - `time_minutes: int | null`
+- `user_approved: bool`
 
 Response fields:
 - `contract_id`
@@ -100,8 +108,17 @@ Response fields:
 Supports:
 - reducing `time_minutes`
 - setting `is_active = false` to pause or exit
+- `user_approved: bool`
 
 Reducing time mid-period must not invalidate later execution.
+
+`GET /api/v1/contracts`
+
+Returns the authenticated user's active joined goals/contracts for agent planning and `Compass.md` synchronization.
+
+Response fields:
+- `contracts: list`
+- each item includes `contract_id`, `goal_id`, `goal_tag`, `goal_title`, `cadence`, `time_minutes`, `is_active`, `latest_next_step`
 
 ### Commits
 
@@ -114,6 +131,8 @@ Request fields:
 - `skill_tag: will | mind | feeling | faith | null`
 - `is_happy_moment: bool = false`
 - `is_public: bool = false`
+- `user_approved: bool`
+- `source_ref: str | null` (optional private agent reference, e.g. `Compass.md` item identity; not exposed in public aggregates)
 
 If `done` is omitted and the previous commit has `next_step`, the backend may use that previous `next_step` as `done`.
 
@@ -139,10 +158,11 @@ Response fields:
 - `goal_id`
 - `partner_id: str | null`
 - `advice_text`
+- `recommended_next_steps: list`
 - `source: platform | partner_stub | partner_service`
 - `subscription_required: bool = false`
 
-MVP can start with a partner stub for the chosen fixture category. The response must be framed as recommendation, not pressure.
+MVP can start with a partner stub for the chosen fixture category. The response must be framed as recommendation, not pressure. Recommended next steps should be suitable for agent insertion into `Compass.md` after user approval. When enough data exists, ordering can prefer ideas that historically lead to more happy-moment commits.
 
 ### Anonymous Summary
 

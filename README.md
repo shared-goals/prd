@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.31 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.32 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -60,6 +60,8 @@ From the primary source (p2-180, MVP scope): *"For MVP it is sufficient to take 
 
 A public goal defines the direction. It can be found by anyone; shared goals are non-competitive and humanistic only.
 
+MVP goal identifiers may be human-readable when created by a trusted agent, for example `sg-music` or `sg-oss-coding`. In a Markdown planning base these appear as tags such as `#sg-music`; the platform stores the normalized identifier without the `#` prefix.
+
 **Visibility:**
 - `public` — discoverable in catalog, subject to 4 humanistic criteria
 - `invite` — accessible via link only
@@ -70,6 +72,8 @@ A public goal defines the direction. It can be found by anyone; shared goals are
 2. **Love as vector** — describes your own action, not a requirement of others; no obligation imposed
 3. **Human as image** — directed at improving a person or the world
 4. **Larger than life** — can be pursued throughout a lifetime (not a one-time event)
+
+`#sg-oss-coding` is a valid non-competitive Shared Goal example. Coding is primarily rational practice and belongs to **Mind**, but open-source coding can also include **Feeling** when people love the work, **Will** when it is disciplined paid or promised effort, and **Faith** when it is idealistic public contribution.
 
 ### Goal Discovery & Deduplication Flow *(post-MVP v1)*
 
@@ -122,6 +126,8 @@ Expert-authored instructions for a goal. Required for MVP — at least one partn
 Participants get clear next steps; partner providers can offer advice to goal members, including subscription-backed recommendations when appropriate.
 
 Instructions that generate more happy moments in execution → highlighted as successful recommendations for experts. ([source](https://text.sharedgoals.ru/p2-180-sharedgoals/#entity_instruction))
+
+The platform can recommend `next_step` ideas for joined goals. MVP recommendations should be concrete enough for an agent to insert into a human-readable planning base, and over time can prioritize ideas that historically lead to more `is_happy_moment` commits.
 
 **Example Partner:** Plavdom (#vodoplav), a goal around constructing river houses — not generic water activity. A partner provider can advise goal members on current practical steps toward building a floating home, with possible subscription-backed guidance. ([source](https://text.sharedgoals.ru/p2-155-photo/#vodoplav))
 
@@ -243,6 +249,16 @@ graph LR
 - Primary interaction via shared-goals skill (AI companion)
 - No roles, no profiles, no avatars
 
+### Compass planning base
+- `Compass.md` is the first human-readable planning base for MVP usage. It replaces the current local Daily Compass area registry over time.
+- It organizes the current time span across the four psychologies: `faith`, `will`, `feeling`, and `mind`.
+- It consists primarily of `next_step` items from joined Shared Goals.
+- Markdown tags such as `#sg-music` and `#sg-oss-coding` resolve to joined goals/contracts in the platform.
+- Agents can add or refine Compass items from platform recommendations after user interaction.
+- Agents can analyze user activity and Compass updates, then propose commits for completed items.
+- All create, update, and delete operations require explicit user approval in MVP.
+- The platform stores normalized goals, contracts, commits, and recommendations; private Markdown remains outside public aggregates by default.
+
 ### Goals
 - Create a goal (title, description, visibility)
 - Find public goals by simple catalog list + text search only; proactive Goal Discovery and deduplication stay post-MVP
@@ -262,6 +278,7 @@ graph LR
 - `is_happy_moment` flag
 - `skill_tag` (will / mind / feeling / faith)
 - Optional: photo, location, with whom
+- Agents can propose commits from completed Compass items, but CUD calls are performed only after user approval.
 
 ### Instructions (Action Plans)
 - At least one partner provides instructions for MVP goal type
@@ -294,14 +311,14 @@ Shared Goals development starts from executable use-case specifications, then im
 
 ### Phased implementation plan
 1. **Freeze the MVP contract:** keep the scope centered on agent-mediated human interaction, create/join goals, contract logging, and advice/instruction delivery. Messenger integrations and proactive Goal Discovery stay out of MVP.
-2. **Write the TDD acceptance layer:** specify the agent/user use cases before implementation in `ACCEPTANCE.md`: human text-base work, goal creation/joining, contract commits, advice retrieval, and the first partner-driven goal path.
+2. **Write the TDD acceptance layer:** specify the agent/user use cases before implementation in `ACCEPTANCE.md`: Compass planning base work, goal creation/joining, contract commits, advice retrieval, and the first partner-driven goal path.
 3. **Separate runtime from PRD maintenance:** keep `shared-goals` skill as the model boundary, keep Daily Compass-style scripts as execution boundaries, and let `sg-prd` own diff-first PRD upkeep.
 4. **Implement the minimal agent-first flow:** expose only the operations agents need to create or join goals, log progress autonomously, and receive instructions/advice without requiring a human UI.
 5. **Add the first partner-driven category:** treat partner goals as real specialized goals with instruction/subscription behavior, not as generic placeholders.
 6. **Keep development control simple:** the default Hermes instance is enough for MVP start; a separate Hermes profile can be introduced later.
 
 ### Product acceptance lanes
-1. **Human text-base flow:** an agent can derive or update goal context from the human's normal Markdown/text workspace without requiring a separate manual UI.
+1. **Compass planning-base flow:** an agent can derive or update joined-goal context from `Compass.md` without requiring a separate manual UI.
 2. **Agent goal flow:** an agent can create a goal or find an existing public goal through simple catalog lookup, then help the human join it through a contract.
 3. **Commit flow:** an agent can log progress against an active contract, including time, `done`, optional `next_step`, `skill_tag`, and `is_happy_moment`.
 4. **Advice flow:** an agent can ask the platform for instructions or next-step advice for an active contract.
