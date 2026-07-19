@@ -2,7 +2,7 @@
 
 > *Design decisions, research notes and changelog are in Russian — reflecting the primary source document: [text.sharedgoals.ru](https://text.sharedgoals.ru)*
 
-**Version:** 1.32 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
+**Version:** 1.33 · **Status:** 🟡 In progress · **Language:** English (MVP scope only)
 
 ---
 
@@ -251,9 +251,12 @@ graph LR
 
 ### Compass planning base
 - `Compass.md` is the first human-readable planning base for MVP usage. It replaces the current local Daily Compass area registry over time.
-- It organizes the current time span across the four psychologies: `faith`, `will`, `feeling`, and `mind`.
-- It consists primarily of `next_step` items from joined Shared Goals.
-- Markdown tags such as `#sg-music` and `#sg-oss-coding` resolve to joined goals/contracts in the platform.
+- The file has no required top-level `# Compass` heading; Obsidian and similar tools use the filename as the caption.
+- The editable source is DRY: one `## Next steps` checklist where each task lives once.
+- Markdown tags such as `#sg-music` and `#sg-oss-coding` are the primary task index and resolve to joined goals/contracts in the platform.
+- A `## Goal IDs` section can list settled or candidate goal IDs, and `## Notes` can document local parsing/approval rules.
+- It consists primarily of `next_step` items from joined Shared Goals; completed checkbox items can become commit proposals.
+- The four psychologies (`faith`, `will`, `feeling`, `mind`) are generated views calculated from goals, task wording, commits, and advice; they are not hand-maintained Compass source sections.
 - Agents can add or refine Compass items from platform recommendations after user interaction.
 - Agents can analyze user activity and Compass updates, then propose commits for completed items.
 - All create, update, and delete operations require explicit user approval in MVP.

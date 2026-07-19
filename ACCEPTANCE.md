@@ -7,7 +7,8 @@ This document is the TDD-first acceptance layer for the Shared Goals MVP. It tur
 These scenarios cover the MVP only:
 - humans interact through agents equipped with the `shared-goals` skill
 - agents create or join goals, create contracts, log commits, and request advice
-- agents may use `Compass.md` as a human-readable planning base across the four psychologies: `faith`, `will`, `feeling`, and `mind`
+- agents may use `Compass.md` as a DRY human-readable planning base indexed by `#sg-*` tags
+- psychology views (`faith`, `will`, `feeling`, `mind`) are generated from Compass tasks, goals, commits, and advice instead of hand-maintained as source sections
 - partner-driven goals can return specialized instructions and subscription-backed advice
 
 Out of scope for MVP acceptance:
@@ -33,6 +34,8 @@ Minimum domain fixtures:
 - `commit_id`: logged progress item against the contract
 - `partner_id`: instruction provider for the partner-driven goal
 - `compass_file_name`: `Compass.md`
+- `compass_next_steps_heading`: `## Next steps`
+- `compass_goal_ids_heading`: `## Goal IDs`
 - `markdown_goal_tag`: human-readable Markdown tag such as `#sg-music`; normalized to `goal_id = "sg-music"`
 
 Authentication fixture when needed:
@@ -62,10 +65,13 @@ Tag rules:
 ### SG-MVP-001 - Compass Planning-base Flow
 
 **Given** a user works with an agent using `Compass.md` as a Markdown planning base
+**And** the file uses its filename as caption, with no required top-level `# Compass` heading
+**And** each task lives once in a `## Next steps` checklist
 **And** the planning base contains human-readable Shared Goals tags such as `#sg-music` or `#sg-oss-coding`
 **When** the user asks the agent to connect current planning context to Shared Goals
 **Then** the agent can resolve the tags to joined goals/contracts without requiring a separate manual UI
 **And** Compass items can represent `next_step` recommendations from joined Shared Goals
+**And** generated views can group the same items by goal or by psychology without duplicating source tasks
 **And** the platform stores only the normalized goal/contract/commit data needed for the MVP
 **And** private source text remains outside public aggregates by default
 **And** create, update, and delete operations are proposed to the user before the agent calls the platform

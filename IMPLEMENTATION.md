@@ -14,6 +14,13 @@ Build the smallest FastAPI + SQLite backend that allows agents equipped with the
 
 Do not implement messenger-specific flows, proactive Goal Discovery, leaderboards, streaks, default reminders, competitive public goals, or a transactional standalone consumer UI in the MVP backend.
 
+`Compass.md` parsing belongs in the local agent/skill layer, not in the backend. MVP parser contract:
+- the filename is the caption; no top-level `# Compass` heading is required
+- `## Next steps` is the single editable checklist where each task lives once
+- `#sg-*` tags are the primary locator and normalize to platform `goal_id` values without the `#` prefix
+- `## Goal IDs` and `## Notes` are reference sections, not task source sections
+- generated views may group tasks by joined goal or by the four psychologies, but those views are derived from the DRY source
+
 ## Test Strategy
 
 Implementation starts with backend acceptance tests. Unit tests can exist underneath, but the first green slice must prove agent-facing behavior through HTTP-level API tests.

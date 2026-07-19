@@ -79,6 +79,7 @@ Seed Network определяется Партнёром MVP. Из Текста 
 
 | Версия | Дата | Изменения |
 |---|---|---|
+| 1.33 | 2026-07-19 | README/ACCEPTANCE/IMPLEMENTATION: уточнён DRY-формат `Compass.md`: без обязательного H1, один `## Next steps` checklist, `#sg-*` как основной индекс задач, `## Goal IDs`/`## Notes` как справочные секции, а psychologies становятся generated view |
 | 1.32 | 2026-07-19 | README/ACCEPTANCE/IMPLEMENTATION: MVP acceptance refocused on `Compass.md` as human-readable planning base; added human-readable Shared Goals tags (`#sg-music`, `#sg-oss-coding`), joined-contract registry replacement, recommended `next_step` flow, happy-moment-informed advice, and user-approved CUD rule |
 | 1.31 | 2026-07-18 | README: уточнена hosting strategy для shared-goals/instance — dev на local development workstation, controlled MVP production на private Armbian homelab host, external Debian VPS как public-production path |
 | 1.30 | 2026-07-18 | README: таблица репозиториев разделена на core platform, tooling/infrastructure, source texts/future partner providers; `robbo-provider` заменён на planned `shared-goals/robbo`; добавлены `text-forge`, `thunder-forge`, внешний `bongiozzo/whattodo`, planned `shared-goals/plavdom` и `shared-goals/pm-forge`; уточнено, что Plavdom — цель строительства домов на воде, а не generic water activity |
