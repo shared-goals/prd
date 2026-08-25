@@ -6,6 +6,20 @@
 
 ---
 
+## Shared Goals Repository Map
+
+Read the repositories in this order when you need the whole system context:
+
+1. [shared-goals/prd](https://github.com/shared-goals/prd) — product decisions, acceptance criteria, implementation contract, history, and research.
+2. [shared-goals/instance](https://github.com/shared-goals/instance) — platform API, persistence, authentication, and backend tests.
+3. [shared-goals/skill](https://github.com/shared-goals/skill) — Hermes skill set and local client connector for agents.
+4. [shared-goals/text-forge](https://github.com/shared-goals/text-forge) — Markdown tooling, Obsidian helpers, publishing, inventory, and Hindsight projection.
+5. [bongiozzo/whattodo](https://github.com/bongiozzo/whattodo) — public WTD Markdown text and laptop operator workflow.
+
+This repository owns the product source of truth. Product scope changes start here before implementation changes elsewhere.
+
+Run `make docs-check` to validate the machine-readable repository map and local README cross-links when sibling repositories are checked out.
+
 ## 1. The Problem
 
 People have goals but rarely achieve them alone. Existing tools — task trackers, habit apps, coaching platforms — either create pressure and dependency or isolate the person from others with the same goals.
@@ -379,6 +393,44 @@ Memory sync rules:
 - **Multi-instance:** `instance_id: str = "default"` in Goal model — foundation for future federated instances (government ESIA, bank loyalty, international). No multi-tenancy logic in MVP.
 - **AI skill:** shared-goals skill for Hermes-compatible agents. Operations: `find_goals`, `create_goal`, `join_goal`, `log_commit`, `request_advice`, `get_summary`. Channel-agnostic — works via any AI companion.
 - **Development memory:** Hindsight-compatible shared memory is used for RAG over project decisions and MVP status. It is not the product database and not a replacement for PRD/git history.
+
+## Component map
+
+Shared Goals is split across small repositories with one owner for each concern.
+This PRD is the product source of truth; the other repositories implement or
+operate one part of the system.
+
+```mermaid
+flowchart LR
+        PRD["shared-goals/prd<br/>product contract"]
+        API["shared-goals/instance<br/>agent REST API"]
+        Skill["shared-goals/skill<br/>Hermes client connector"]
+        Compass["Private Compass.md<br/>local planning base"]
+        WTD["bongiozzo/whattodo<br/>public reflexive Markdown"]
+        Forge["shared-goals/text-forge<br/>text tooling and memory projection"]
+
+        PRD --> API
+        PRD --> Skill
+        WTD --> Forge
+        Forge --> Skill
+        Compass --> Skill
+        Skill --> API
+```
+
+Ownership boundaries:
+
+- `Compass.md` is private local Markdown used by an agent as working context for
+    Shared Goals commits and next steps. It is not imported wholesale into the
+    backend.
+- `bongiozzo/whattodo` is public reflexive Markdown. It helps agents understand
+    the user's values and possible shared goals through Text Forge/Hindsight
+    projections.
+- `shared-goals/text-forge` owns text publication, Obsidian editing helpers,
+    AI-readable exports, source inventory, and Hindsight projection.
+- `shared-goals/skill` owns Hermes skills and the client connector between local
+    Markdown workflows and the Shared Goals platform API.
+- `shared-goals/instance` owns the API, database, authentication, and acceptance
+    tested backend behavior.
 
 ## Repositories
 
